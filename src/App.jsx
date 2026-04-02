@@ -30,7 +30,7 @@ function App() {
         onSelectMilestone={setSelectedMilestone}
         milestones={milestones}
       />
-      <div className="flex-1 min-h-0 flex flex-col pl-10 pr-5 pt-3 pb-[60px]">
+      <div className="pl-10 pr-5 pt-3" style={{ maxHeight: 'calc(100vh - 60px - 12px - 60px)' }}>
         <ForecastTable
           activePriorities={activePriorities}
           selectedMilestone={selectedMilestone}

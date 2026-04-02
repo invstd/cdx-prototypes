@@ -455,7 +455,7 @@ export default function ForecastTable({ activePriorities, selectedMilestone, buf
   const grandDone = Object.values(totals.doneTotals).reduce((a, b) => a + (b ?? 0), 0)
 
   return (
-    <div className="flex gap-0 flex-1 min-h-0">
+    <div className="flex gap-0 max-h-full">
       {/* Capacity drawer — left side, pushes table right */}
       {(openDrawer || drawerContent) && deckCapacityMap[drawerContent || openDrawer] && (
         <div className="drawer-wrapper shrink-0" style={{ width: drawerVisible ? 380 : 0 }}>
@@ -474,7 +474,7 @@ export default function ForecastTable({ activePriorities, selectedMilestone, buf
         </div>
       )}
 
-      <div className={`flex-1 min-w-0 max-h-full overflow-hidden border border-grey-500 ${drawerVisible ? 'rounded-r-[8px]' : 'rounded-[8px]'}`}>
+      <div className={`min-w-0 max-h-full overflow-hidden border border-grey-500 ${drawerVisible ? 'rounded-r-[8px]' : 'rounded-[8px]'}`}>
         <div ref={scrollRef} className="overflow-auto max-h-full bg-grey-750 forecast-scroll" style={{ position: 'relative' }}>
           <table className="text-sm border-separate border-spacing-0" style={{ minWidth: '100%' }}>
           <thead className="sticky top-0 z-30">
