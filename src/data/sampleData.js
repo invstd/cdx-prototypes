@@ -227,6 +227,10 @@ export const scopeRows = [
   },
 ]
 
+// ─── Scenarios ──────────────────────────────────────────────────────────────
+
+export const scenarios = []
+
 // ─── Helpers for aggregation ─────────────────────────────────────────────────
 
 /** Aggregate card values into { columnName: total } for a list of cards */
