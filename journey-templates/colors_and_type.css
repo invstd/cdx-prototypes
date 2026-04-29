@@ -1,0 +1,245 @@
+/* =============================================================================
+   Codecks — Colors & Typography
+   Brand fonts: Ebony (display serif) + Lato (UI / body sans)
+   ============================================================================= */
+
+/* ---------- Fonts: cdx-ebony (the only brand typeface) ----------
+   Codecks uses Ebony for everything. The codebase maps:
+     ebony-light          → weight 400 (regular body)
+     ebony-lightitalic    → weight 400 italic
+     ebony-semibold       → weight 700 (bold/headings)
+     ebony-semibolditalic → weight 700 italic
+   Family name matches the in-app token: "cdx-ebony".
+*/
+@font-face {
+  font-family: "cdx-ebony";
+  src: url("fonts/ebony-light.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "cdx-ebony";
+  src: url("fonts/ebony-lightitalic.woff2") format("woff2");
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: "cdx-ebony";
+  src: url("fonts/ebony-semibold.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "cdx-ebony";
+  src: url("fonts/ebony-semibolditalic.woff2") format("woff2");
+  font-weight: 700;
+  font-style: italic;
+  font-display: swap;
+}
+
+/* ---------- Mono fallback (Roboto Mono, via Google Fonts) ----------
+   The codebase uses "Roboto Mono Variable" — Google Fonts ships the
+   non-variable cut, which is functionally identical for our purposes.
+*/
+@import url("https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500;700&display=swap");
+
+:root {
+  /* ============ FONT FAMILIES ============ */
+  /* Ebony is the only brand family. It's used for ALL text —
+     headings, body, labels. There is no separate sans-serif. */
+  --font-ebony: "cdx-ebony", "Iowan Old Style", "Palatino", Georgia, serif;
+  --font-mono:  "Roboto Mono", ui-monospace, "SF Mono", Menlo, monospace;
+
+  /* Aliases for clarity */
+  --font-display: var(--font-ebony);
+  --font-body:    var(--font-ebony);
+
+  /* ============ NEUTRAL: GRAY ============ */
+  --gray-25:  #F9F9FA;
+  --gray-50:  #EDEEF2;
+  --gray-100: #E0E2EB;
+  --gray-150: #CDD1E2;
+  --gray-200: #BBC0D6;
+  --gray-300: #9098B6;
+  --gray-400: #6C7490;
+  --gray-450: #606781;
+  --gray-500: #575E75;
+  --gray-550: #4C5267;
+  --gray-600: #40465A;
+  --gray-650: #373D50;
+  --gray-700: #313649;
+  --gray-750: #2A3042;
+  --gray-800: #24293B;
+  --gray-850: #1E2333;
+  --gray-900: #181D2C;
+  --gray-950: #131725;
+
+  /* ============ BRAND: PURPLE ============ */
+  --purple-25:  #FAF8FF;
+  --purple-50:  #F1EBFC;
+  --purple-100: #E7DFF7;
+  --purple-150: #D9CCEF;
+  --purple-200: #CAB9E7;
+  --purple-300: #A38ACB;
+  --purple-350: #9074BB;
+  --purple-400: #8362B1;
+  --purple-450: #7C5AAB;
+  --purple-500: #704D9E;
+  --purple-550: #604187;
+  --purple-600: #563978;
+  --purple-650: #4C3168;
+  --purple-700: #442B5D;
+  --purple-750: #3E2456;
+  --purple-800: #381D4E;
+  --purple-850: #321746;
+  --purple-900: #2C113D;
+  --purple-950: #250B35;
+
+  /* dim purple — dark surfaces */
+  --dim-purple-850: #2E1E34;
+  --dim-purple-900: #28172E;
+
+  /* ============ ACTIVE / TEAL (CTA) ============ */
+  --active-50:  #D7F8EB;
+  --active-100: #B1F3DB;
+  --active-200: #82E7C6;
+  --active-300: #67DAB7;
+  --active-400: #4BCEA8;
+  --active-500: #34B491;
+  --active-600: #17866A;
+  --active-700: #0D5E49;
+
+  /* ============ ALERT / RED ============ */
+  --alert-300: #DB5960;
+  --alert-400: #C03942;
+  --alert-500: #9A272F;
+
+  /* ============ CARD STATE ============ */
+  --doc-100: #F6DF92;   /* documentation */
+  --doc-300: #D9B36D;
+  --doc-700: #643506;
+  --hero-500: #B37A41;  /* hero / placeholder */
+  --done-300: #59D66C;  /* done */
+  --done-400: #41C357;
+  --done-500: #339C44;
+  --warning-500: #C88500;
+  --gold-500: #EFB418;
+  --gold-600: #D59100;
+
+  /* card-state main fills (for card footers) */
+  --state-assigned:   #B39B62;
+  --state-started:    #3E69B6;
+  --state-review:     #2F8288;
+  --state-blocked:    #D2143A;
+  --state-snoozing:   #8D2383;
+  --state-done:       #41C357;
+  --state-doc:        #C49652;
+  --state-unassigned: #BBC0D6;
+
+  /* ============ SEMANTIC: TEXT ============ */
+  --fg-primary:   var(--gray-800);
+  --fg-secondary: var(--gray-550);
+  --fg-tertiary:  var(--gray-400);
+  --fg-accent:    var(--purple-500);
+  --fg-success:   var(--active-600);
+  --fg-error:     var(--alert-500);
+  --fg-link:      #0072c4;
+  --fg-on-dark:   var(--gray-50);
+  --fg-on-dark-secondary: var(--gray-200);
+
+  /* ============ SEMANTIC: SURFACES ============ */
+  --bg-app:     #DBDFEC;
+  --bg-surface: #FFFFFF;
+  --bg-input:   #FFFFFF;
+  --bg-dark:    var(--purple-900);
+  --bg-overlay: #1A2B47;
+
+  /* ============ BORDERS ============ */
+  --border-default: var(--gray-150);
+  --border-light:   var(--gray-100);
+  --border-strong:  var(--gray-300);
+  --border-input:   var(--purple-350);
+
+  /* ============ RADII ============ */
+  --radius-xs: 2px;
+  --radius-sm: 4px;
+  --radius-md: 5px;   /* card radius */
+  --radius-lg: 8px;
+  --radius-xl: 12px;
+  --radius-pill: 999px;
+
+  /* ============ SHADOWS ============ */
+  --shadow-card:    0 1px 2px rgba(0,0,0,.06), 0 0 0 1px rgba(0,0,0,.04);
+  --shadow-elev-1:  0 1px 2px rgba(51,51,51,0.06), 0 4px 8px rgba(51,51,51,0.06);
+  --shadow-elev-2:  0 4px 12px rgba(0,0,0,0.10), 0 1px 2px rgba(0,0,0,0.05);
+  --shadow-overlay: 0 30px 60px rgba(0,0,0,.4), 0 0 0 1px rgba(0,0,0,.4);
+  --shadow-focus:   0 0 0 2px rgba(75,206,168,0.35);
+}
+
+/* =============================================================================
+   BASE TYPE SETTINGS
+   Ebony is set as the default body font. "Bold" maps to Semibold (600/700).
+   ============================================================================= */
+html, body {
+  font-family: var(--font-ebony);
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.4;
+  color: var(--fg-primary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* =============================================================================
+   SEMANTIC TYPE STYLES — 1:1 mirror of ds/css/type.css.ts `textType`
+   Naming and metrics match the in-app tokens exactly so a class like
+   .type-prose16 here renders identically to <Box font="prose16"> in product.
+   ============================================================================= */
+
+/* ---------- Display ---------- */
+.type-display40 { font-weight: 700; font-size: 2.5rem;   line-height: 2.375rem; }  /* 40 / 38 */
+
+/* ---------- Titles ---------- */
+.type-title26 { font-weight: 700; font-size: 1.625rem;  line-height: 2rem;     } /* 26 / 32 */
+.type-title24 { font-weight: 700; font-size: 1.5rem;    line-height: 2rem;     } /* 24 / 32 */
+.type-title22 { font-weight: 700; font-size: 1.375rem;  line-height: 1.75rem;  } /* 22 / 28 */
+.type-title18 { font-weight: 700; font-size: 1.125rem;  line-height: 1.5rem;   } /* 18 / 24 */
+
+/* ---------- Prose ---------- */
+.type-prose18     { font-weight: 400; font-size: 1.125rem; line-height: 1.5rem;   } /* 18 / 24 */
+.type-prose16     { font-weight: 400; font-size: 1rem;     line-height: 1.375rem; } /* 16 / 22 */
+.type-prose16bold { font-weight: 700; font-size: 1rem;     line-height: 1.375rem; }
+.type-prose14     { font-weight: 400; font-size: 0.875rem; line-height: 1.125rem; } /* 14 / 18 */
+.type-prose12     { font-weight: 400; font-size: 0.75rem;  line-height: 1rem;     } /* 12 / 16 */
+.type-prose12bold { font-weight: 700; font-size: 0.75rem;  line-height: 1rem;     }
+
+/* ---------- Labels ---------- */
+.type-label16      { font-weight: 700; font-size: 1rem;     line-height: 1.125rem; }
+.type-label16light { font-weight: 400; font-size: 1rem;     line-height: 1.125rem; }
+.type-label14      { font-weight: 700; font-size: 0.875rem; line-height: 1rem;     }
+.type-label14light { font-weight: 400; font-size: 0.875rem; line-height: 1rem;     }
+.type-label12      { font-weight: 700; font-size: 0.75rem;  line-height: 0.875rem; letter-spacing: 0.01em; }
+.type-label12light { font-weight: 400; font-size: 0.75rem;  line-height: 0.875rem; }
+.type-label12Caps  { font-weight: 700; font-size: 0.75rem;  line-height: 0.875rem; text-transform: uppercase; letter-spacing: 0.02em; }
+.type-label11      { font-weight: 700; font-size: 0.6875rem; line-height: 0.75rem; letter-spacing: 0.02em; }
+.type-label11light { font-weight: 400; font-size: 0.6875rem; line-height: 0.75rem; }
+.type-label11Caps  { font-weight: 700; font-size: 0.6875rem; line-height: 0.75rem; text-transform: uppercase; letter-spacing: 0.02em; }
+.type-label10Caps  { font-weight: 700; font-size: 0.625rem;  line-height: 0.625rem; text-transform: uppercase; letter-spacing: 0.02em; }
+
+/* ---------- Mono ---------- */
+.type-mono14 { font-family: var(--font-mono); font-weight: 400; font-size: 0.875rem; line-height: 1.125rem; }
+.type-mono12 { font-family: var(--font-mono); font-weight: 400; font-size: 0.75rem;  line-height: 1rem; }
+
+/* ---------- Element defaults (so unstyled HTML still looks right) ---------- */
+h1 { font: 700 2.5rem/2.375rem var(--font-ebony); margin: 0 0 .5em; }
+h2 { font: 700 1.5rem/2rem      var(--font-ebony); margin: 0 0 .5em; }
+h3 { font: 700 1.125rem/1.5rem  var(--font-ebony); margin: 0 0 .5em; }
+h4 { font: 700 1rem/1.375rem    var(--font-ebony); margin: 0 0 .5em; }
+p  { font: 400 1rem/1.375rem    var(--font-ebony); margin: 0 0 1em; color: var(--fg-primary); }
+small { font-size: 0.75rem; color: var(--fg-secondary); }
+code, pre { font-family: var(--font-mono); font-size: 0.875em; }
+strong { font-weight: 700; }
+em { font-style: italic; }

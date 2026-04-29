@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Journey Templates — Prototype</title>
+<link rel="stylesheet" href="journey.css?v=48">
+<style>
+  html, body { margin: 0; padding: 0; overflow: hidden; height: 100%; }
+  body { background: var(--app-bg); }
+
+  .stage {
+    position: fixed; inset: 0;
+    background: var(--app-bg);
+    overflow: hidden;
+    font-family: var(--font-ebony);
+  }
+
+  /* Demo control — bottom-left */
+  .demo-ctrl {
+    position: fixed; bottom: 14px; left: 14px; z-index: 200;
+    display: flex; gap: 8px; align-items: center;
+    background: rgba(24, 29, 44, 0.92);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 8px;
+    padding: 6px 12px;
+    font-family: var(--font-ebony);
+    font-size: .72rem;
+    font-weight: 700;
+    color: var(--journey-text-dim);
+    box-shadow: 0 4px 16px rgba(0,0,0,.3);
+    cursor: pointer;
+    user-select: none;
+  }
+  .demo-ctrl input[type="checkbox"] {
+    accent-color: var(--active-500);
+    margin: 0;
+  }
+</style>
+</head>
+<body>
+
+<div id="root"></div>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin="anonymous"></script>
+
+<script src="data.js"></script>
+<script type="text/babel" src="journey-base.jsx?v=12"></script>
+<script type="text/babel" src="prototype-components.jsx?v=17"></script>
+
+<script type="text/babel">
+const { useState, useCallback } = React;
+
+const DEFAULT_ZONES = [
+  { name: "Default Steps", steps: [
+    { label: "Add Crafting Recipe", e: 2, p: 2 },
+    { label: "Create Item Icon & Model", e: 3, p: 3 },
+    { label: "Implement Item Functionality", e: 5, p: 3 },
+    { label: "Balance Recipe Cost", e: 2, p: 2 },
+    { label: "Design Item SFX", e: 2, p: 2 },
+  ]},
+  { name: "Optional Steps", steps: [] },
+];
+
+function App() {
+  const [view, setView] = useState('editor');
+  const [saveOpen, setSaveOpen] = useState(false);
+  const [detail, setDetail] = useState(null);
+  const [toast, setToast] = useState(null);
+  const [journeyHasSteps, setJourneyHasSteps] = useState(true);
+  const [editorZones, setEditorZones] = useState(DEFAULT_ZONES);
+  const [highlightZone, setHighlightZone] = useState(-1);
+
+  const showToast = useCallback((msg) => {
+    setToast(msg);
+    setTimeout(() => setToast(null), 2800);
+  }, []);
+
+  /* ── Navigation handlers ── */
+
+  const onOpenSave = () => setSaveOpen(true);
+  const onCloseSave = () => setSaveOpen(false);
+
+  const onPublish = () => {
+    setSaveOpen(false);
+    showToast('Template submitted for review');
+  };
+
+  const onOpenBrowse = () => {
+    setView('browse');
+    setDetail(null);
+  };
+
+  const onOpenTemplate = (t) => {
+    setDetail(t);
+    setView('preview');
+  };
+
+  const onBackToBrowse = () => {
+    setView('browse');
+    setDetail(null);
+  };
+
+  const onBackToEditor = () => {
+    setView('editor');
+    setDetail(null);
+    setSaveOpen(false);
+  };
+
+  const onApply = (t, mode) => {
+    const tplZone = { name: t.name, steps: t.steps };
+    let hlZone = 0;
+    if (mode === 'replace') {
+      setEditorZones([tplZone, { name: "Optional Steps", steps: [] }]);
+      hlZone = 0;
+    } else if (mode === 'append') {
+      setEditorZones(prev => {
+        hlZone = prev.length;
+        return [...prev, tplZone];
+      });
+      hlZone = editorZones.length;
+    } else {
+      setEditorZones([tplZone, { name: "Optional Steps", steps: [] }]);
+      hlZone = 0;
+    }
+    setJourneyHasSteps(true);
+    setHighlightZone(hlZone);
+    setTimeout(() => setHighlightZone(-1), 1800);
+    setView('editor');
+    setDetail(null);
+    if (mode === 'replace') showToast(`Steps replaced with "${t.name}"`);
+    else if (mode === 'append') showToast(`"${t.name}" steps appended`);
+    else showToast(`"${t.name}" added to your journey`);
+  };
+
+  const onCloseJourney = () => {
+    setView('editor');
+    setDetail(null);
+    setSaveOpen(false);
+  };
+
+  /* ── Breadcrumbs ── */
+
+  const breadcrumbs = view === 'preview' ? [
+    { label: 'Crafting Recipes', onClick: onBackToEditor },
+    { label: 'Journey Templates', onClick: onBackToBrowse },
+    { label: detail?.name || 'Preview', active: true },
+  ] : view === 'browse' ? [
+    { label: 'Crafting Recipes', onClick: onBackToEditor },
+    { label: 'Journey Templates', active: true },
+  ] : null;
+
+  const isAltView = view === 'browse' || view === 'preview';
+  const headActions = isAltView ? <></> : undefined;
+
+  /* ── Render ── */
+
+  return (
+    <div className="stage">
+      <AppBehind/>
+      <div className="scrim"/>
+
+      <JourneyEditor
+        dim={saveOpen}
+        saveOpen={saveOpen}
+        view={isAltView ? view : 'editor'}
+        breadcrumbs={breadcrumbs}
+        headActions={headActions}
+        onOpenSave={onOpenSave}
+        onOpenBrowse={onOpenBrowse}
+        onClose={onCloseJourney}
+        editorZones={editorZones}
+        highlightZone={highlightZone}
+        savePanel={
+          <>
+            <div className={"save-backdrop" + (saveOpen ? " open" : "")}
+              onClick={onCloseSave}/>
+            <div className={"save-sidebar" + (saveOpen ? "" : " closed")}>
+              <SavePanel onClose={onCloseSave} onPublish={onPublish}/>
+            </div>
+          </>
+        }
+      >
+        {view === 'browse' && (
+          <BrowsePanel
+            embedded
+            onClose={onBackToEditor}
+            onOpenTemplate={onOpenTemplate}
+          />
+        )}
+        {view === 'preview' && detail && (
+          <PreviewPanel
+            embedded
+            t={detail}
+            onClose={onBackToBrowse}
+            onApply={onApply}
+            journeyHasSteps={journeyHasSteps}
+          />
+        )}
+      </JourneyEditor>
+
+      {/* Toast */}
+      {toast && <div className="toast"><Icon.Check/>{toast}</div>}
+
+      {/* Demo toggle — empty journey simulation */}
+      <label className="demo-ctrl">
+        <input type="checkbox" checked={journeyHasSteps}
+          onChange={e => {
+            const on = e.target.checked;
+            setJourneyHasSteps(on);
+            if (on) setEditorZones(DEFAULT_ZONES);
+            else setEditorZones([{ name: "Default Steps", steps: [] }]);
+          }}/>
+        Journey has existing steps
+      </label>
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+</script>
+
+</body>
+</html>
